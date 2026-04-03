@@ -1,0 +1,54 @@
+---
+- name: Install Node.js and npm
+  apt:
+    name:
+      - nodejs
+      - npm
+    state: present
+    update_cache: yes
+
+- name: Ensure app directory exists
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: '0755'
+
+- name: Clone application repository
+  git:
+    repo: "{{ app_repo_url }}"
+    dest: "{{ app_dir }}"
+    version: "{{ app_repo_version }}"
+    force: yes
+
+- name: Install Node dependencies
+  npm:
+    path: "{{ app_dir }}/{{ app_subdir }}"
+  become_user: "{{ app_user }}"
+
+- name: Create environment file
+  template:
+    src: env.j2
+    dest: "{{ app_dir }}/{{ app_subdir }}/.env"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: '0600'
+  notify: Restart octopus app
+
+- name: Create systemd service file
+  template:
+    src: app.service.j2
+    dest: /etc/systemd/system/{{ app_name }}.service
+    mode: '0644'
+  notify: Restart octopus app
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start octopus app service
+  systemd:
+    name: "{{ app_name }}"
+    enabled: yes
+    state: started

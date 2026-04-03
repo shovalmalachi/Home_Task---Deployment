@@ -1,0 +1,9 @@
+---
+- name: Deploy Octopus app
+  hosts: web
+  become: true
+
+  roles:
+    - common
+    - node_app
+    - nginx

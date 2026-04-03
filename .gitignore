@@ -1,0 +1,8 @@
+inventory/hosts.ini
+group_vars/all.yml
+*.pem
+*.key
+secrets.yml
+.env
+.retry
+*.retry

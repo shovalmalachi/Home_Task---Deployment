@@ -1,0 +1,12 @@
+app_name: octopus-app
+app_user: ubuntu
+app_dir: /opt/octopus-app
+
+app_repo_url: "https://github.com/shovalmalachi/Home_Task"
+app_repo_version: "main"
+
+app_port: 3000
+
+mongo_uri: "mongodb+srv://admin:Aa123@foroctopus.muy0epn.mongodb.net/?appName=ForOctopus"
+db_name: "octopusdb"
+collection_name: "fruits"

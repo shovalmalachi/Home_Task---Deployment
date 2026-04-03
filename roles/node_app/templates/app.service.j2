@@ -1,0 +1,15 @@
+[Unit]
+Description=Octopus Node App
+After=network.target
+
+[Service]
+Type=simple
+User={{ app_user }}
+WorkingDirectory={{ app_dir }}/{{ app_subdir }}
+EnvironmentFile={{ app_dir }}/{{ app_subdir }}/.env
+ExecStart=/usr/bin/npm start
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

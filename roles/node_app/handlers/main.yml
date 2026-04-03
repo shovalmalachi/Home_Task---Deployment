@@ -1,0 +1,6 @@
+---
+- name: Restart octopus app
+  systemd:
+    name: "{{ app_name }}"
+    state: restarted
+    daemon_reload: yes
