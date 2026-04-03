@@ -17,15 +17,8 @@ The deployment uses:
 ---
 
 ## 🧱 Architecture
-Internet
-↓
-NGINX (EC2)
-↓
-Node.js App
-↓
-MongoDB Atlas
 
-
+- Internet → NGINX (EC2) → Node.js App → MongoDB Atlas
 ---
 
 ## ⚙️ What this repository does
@@ -88,6 +81,7 @@ cp group_vars/all.example.yml group_vars/all.yml
 app-server ansible_host=YOUR_EC2_PUBLIC_IP ansible_user=ubuntu
 
 ## Example variables
+``` bash
 app_name: octopus-app
 app_user: ubuntu
 app_dir: /opt/octopus-app
@@ -106,3 +100,4 @@ Run Deployment:
 - ansible -i inventory/hosts.ini web -m ping --private-key ./CA.pem
 - ansible-playbook -i inventory/hosts.ini site.yml --private-key ./CA.pem
 - curl http://my_public_ip
+```
