@@ -77,9 +77,10 @@ cp group_vars/all.example.yml group_vars/all.yml
 ```
 
 ## Example inventory
+``` bash
 [web]
 app-server ansible_host=YOUR_EC2_PUBLIC_IP ansible_user=ubuntu
-
+```
 ## Example variables
 ``` bash
 app_name: octopus-app
