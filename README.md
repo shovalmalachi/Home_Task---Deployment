@@ -42,6 +42,7 @@ This repository automates the full deployment process:
 ---
 
 ## 📁 Repository Structure
+``` bash
 deployment/
 ├── ansible.cfg
 ├── site.yml
@@ -54,7 +55,7 @@ deployment/
 │ ├── node_app/
 │ └── nginx/
 └── README.md
-
+```
 
 ---
 
