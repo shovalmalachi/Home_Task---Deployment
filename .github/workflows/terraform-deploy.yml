@@ -1,0 +1,50 @@
+name: Terraform Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_uri:
+        description: "ECR image URI"
+        required: true
+        type: string
+      mongo_uri:
+        description: "Mongo Atlas URI"
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: eu-central-1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform/environments/dev
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: |
+          terraform apply -auto-approve \
+            -var="image_uri=${{ inputs.image_uri }}" \
+            -var="mongo_uri=${{ inputs.mongo_uri }}"
